@@ -124,18 +124,18 @@
 <script>
   const MAX_ROUNDS = 10;
   const NAMES = {
-  A: "Kimchi",
-  B: "Bulgogi",
-  C: "Bibimbap",
-  D: "Tteokbokki",
-  E: "Japchae",
-  F: "Samgyeopsal",
-  G: "Kimbap",
-  H: "Sundubu",
-  I: "Naengmyeon",
-  J: "Jjajangmyeon",
-  K: "Galbi",
-  L: "Ramyeon"
+  A: "Seafood pancake",
+  B: "Tukbokki",
+  C: "Kimchi soup",
+  D: "Cold noodles",
+  E: "Tang-soo-yook",
+  F: "Jajangmyun",
+  G: "BudeJigae",
+  H: "Korean BBQ",
+  I: "Seasoned raw Crab",
+  J: "JamPong",
+  K: "Kimchi fried rice",
+  L: "Shabu Shabu"
 };
 
   const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -156,6 +156,9 @@
 
   const restartBtn = document.getElementById("restart");
 
+  function displayName(letter) {
+  return NAMES[letter] || letter; // fallback to the letter if missing
+}
   function renderRound() {
     status.textContent = `Round ${round} / ${MAX_ROUNDS}`;
 
@@ -171,8 +174,9 @@
 
     prompt.textContent = `Which one do you choose?`;
 
-    label1.textContent = optionA;
-    label2.textContent = optionB;
+label1.textContent = displayName(optionA);
+label2.textContent = displayName(optionB);
+
 
     img1.src = `images/${optionA.toLowerCase()}.jpg`;
     img2.src = `images/${optionB.toLowerCase()}.jpg`;
@@ -215,4 +219,5 @@
 
 </body>
 </html>
+
 
