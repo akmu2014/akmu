@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Choice Game</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: system-ui, Arial, sans-serif;
+      background: #0b0f1a;
+      color: #fff;
+    }
+
+    .app {
+      max-width: 520px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 16px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pill {
+      text-align: center;
+      padding: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .prompt {
+      font-size: 18px;
+      font-weight: 900;
+      margin: 0;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .choice {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05);
+      cursor: pointer;
+    }
+
+    .choice img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+    }
+
+    .label {
+      text-align: center;
+      padding: 12px;
+      font-weight: 900;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .footer {
+      margin-top: auto;
+      font-size: 12px;
+      text-align: center;
+      opacity: 0.6;
+    }
+
+    .restart {
+      margin-top: 14px;
+      padding: 14px;
+      font-weight: 900;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+
+  <div class="pill" id="status">Round 1 / 10</div>
+
+  <div class="card">
+    <p class="prompt" id="prompt">Choose:</p>
+
+    <div class="choices">
+      <div class="choice" id="choice1">
+        <img id="img1">
+        <div class="label" id="label1"></div>
+      </div>
+
+      <div class="choice" id="choice2">
+        <img id="img2">
+        <div class="label" id="label2"></div>
+      </div>
+    </div>
+
+    <button class="restart" id="restart" style="display:none;">
+      Restart
+    </button>
+  </div>
+
+  <div class="footer">Mobile choice game</div>
+</div>
+
+<script>
+  const MAX_ROUNDS = 10;
+  const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  let round = 1;
+  let lastChoice = "A";   // default for first round
+
+  const status = document.getElementById("status");
+  const prompt = document.getElementById("prompt");
+
+  const img1 = document.getElementById("img1");
+  const img2 = document.getElementById("img2");
+  const label1 = document.getElementById("label1");
+  const label2 = document.getElementById("label2");
+
+  const choice1 = document.getElementById("choice1");
+  const choice2 = document.getElementById("choice2");
+
+  const restartBtn = document.getElementById("restart");
+
+  function renderRound() {
+    status.textContent = `Round ${round} / ${MAX_ROUNDS}`;
+
+    let optionA, optionB;
+
+    if (round === 1) {
+      optionA = "A";
+      optionB = "B";
+    } else {
+      optionA = lastChoice;
+      optionB = LETTERS[round];
+    }
+
+    prompt.textContent = `Which one do you choose?`;
+
+    label1.textContent = optionA;
+    label2.textContent = optionB;
+
+    img1.src = `images/${optionA.toLowerCase()}.jpg`;
+    img2.src = `images/${optionB.toLowerCase()}.jpg`;
+
+    choice1.onclick = () => pick(optionA);
+    choice2.onclick = () => pick(optionB);
+  }
+
+  function pick(letter) {
+    lastChoice = letter;
+    round++;
+
+    if (round > MAX_ROUNDS) {
+      endGame();
+    } else {
+      renderRound();
+    }
+  }
+
+  function endGame() {
+    status.textContent = "Finished";
+    prompt.textContent = `Final choice: ${lastChoice}`;
+
+    document.querySelector(".choices").style.display = "none";
+    restartBtn.style.display = "block";
+  }
+
+  restartBtn.onclick = () => {
+    round = 1;
+    lastChoice = "A";
+    document.querySelector(".choices").style.display = "grid";
+    restartBtn.style.display = "none";
+    renderRound();
+  };
+
+  renderRound();
+</script>
+
+</body>
+</html>
