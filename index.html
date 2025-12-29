@@ -123,6 +123,21 @@
 
 <script>
   const MAX_ROUNDS = 10;
+  const NAMES = {
+  A: "Kimchi",
+  B: "Bulgogi",
+  C: "Bibimbap",
+  D: "Tteokbokki",
+  E: "Japchae",
+  F: "Samgyeopsal",
+  G: "Kimbap",
+  H: "Sundubu",
+  I: "Naengmyeon",
+  J: "Jjajangmyeon",
+  K: "Galbi",
+  L: "Ramyeon"
+};
+
   const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   let round = 1;
@@ -179,7 +194,9 @@
 
   function endGame() {
     status.textContent = "Finished";
-    prompt.textContent = `Final choice: ${lastChoice}`;
+    const finalName = NAMES[lastChoice] || lastChoice;
+    prompt.textContent = `Final choice: ${finalName}`;
+
 
     document.querySelector(".choices").style.display = "none";
     restartBtn.style.display = "block";
@@ -198,3 +215,4 @@
 
 </body>
 </html>
+
